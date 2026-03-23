@@ -1,14 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dataLayerName = window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || [];
 
   function pushEvent(eventName, params = {}) {
-    dataLayerName.push({
+    window.dataLayer.push({
       event: eventName,
       ...params
     });
-    console.log("Event pushed:", eventName, params);
+    console.log("Event:", eventName, params);
   }
 
+  /* =========================
+     A/B test CTA
+  ========================= */
   let variant = localStorage.getItem("ab_variant");
 
   if (!variant) {
@@ -17,20 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const ctaMain = document.getElementById("cta-main");
-  const ctaSecondary = document.getElementById("cta-secondary");
 
   if (ctaMain) {
-    ctaMain.textContent = variant === "A" ? "Wypróbuj za darmo" : "Zacznij teraz";
-  }
-
-  if (ctaSecondary) {
-    ctaSecondary.textContent = variant === "A" ? "Wypróbuj za darmo" : "Zacznij teraz";
+    ctaMain.textContent = variant === "A" ? "Dołącz za darmo" : "Rozpocznij teraz";
   }
 
   pushEvent("ab_impression", { variant });
 
-
-  const ctaButtons = document.querySelectorAll(".btn, #cta-main, #cta-secondary");
+  /* =========================
+     CTA click
+  ========================= */
+  const ctaButtons = document.querySelectorAll(".btn");
 
   ctaButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -42,44 +42,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
+  /* =========================
+     Pricing nav click
+  ========================= */
   const navPricing = document.getElementById("nav-pricing");
+
   if (navPricing) {
     navPricing.addEventListener("click", () => {
       pushEvent("nav_pricing_click", { variant });
     });
   }
 
-
+  /* =========================
+     Form submit
+  ========================= */
   const signupForm = document.getElementById("signup-form");
-  const successMessage = document.getElementById("success-message");
-  const errorMessage = document.getElementById("error-message");
+  const formMessage = document.getElementById("form-message");
 
   if (signupForm) {
     signupForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("email")?.value.trim() || "";
-      const role = document.getElementById("role")?.value.trim() || "";
-      const goal = document.getElementById("goal")?.value.trim() || "";
+      const email = document.getElementById("email").value.trim();
+      const role = document.getElementById("role").value.trim();
+      const goal = document.getElementById("goal").value.trim();
+
+      formMessage.textContent = "";
+      formMessage.classList.remove("success", "error");
 
       if (!email || !role) {
-        if (errorMessage) {
-          errorMessage.style.display = "block";
-          errorMessage.textContent = "Uzupełnij wymagane pola: email i rola.";
-        }
-        if (successMessage) successMessage.style.display = "none";
+        formMessage.textContent = "Uzupełnij wymagane pola: email i rola.";
+        formMessage.classList.add("error");
         return;
       }
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!emailPattern.test(email)) {
-        if (errorMessage) {
-          errorMessage.style.display = "block";
-          errorMessage.textContent = "Podaj poprawny adres email.";
-        }
-        if (successMessage) successMessage.style.display = "none";
+        formMessage.textContent = "Podaj poprawny adres e-mail.";
+        formMessage.classList.add("error");
         return;
       }
 
@@ -89,27 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
         has_goal: goal ? "yes" : "no"
       });
 
-      if (errorMessage) errorMessage.style.display = "none";
-
-      if (successMessage) {
-        successMessage.style.display = "block";
-        successMessage.textContent = "Dziękujemy! Formularz został wysłany 🎉";
-      }
+      formMessage.textContent = "Dziękujemy! Formularz został wysłany 🎉";
+      formMessage.classList.add("success");
 
       signupForm.reset();
     });
   }
 
-
-  const faqQuestions = document.querySelectorAll(".faq-question");
-
-  faqQuestions.forEach((question) => {
-    question.addEventListener("click", () => {
-      const item = question.parentElement;
-      item.classList.toggle("active");
-    });
-  });
-
+  /* =========================
+     Scroll 75%
+  ========================= */
   let scrollTracked = false;
 
   window.addEventListener("scroll", () => {
@@ -125,26 +115,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
- 
+  /* =========================
+     Pricing page view
+  ========================= */
   const isPricingPage = window.location.pathname.toLowerCase().includes("pricing.html");
+
   if (isPricingPage) {
     pushEvent("pricing_view", { variant });
   }
 
+  /* =========================
+     Reveal animation
+  ========================= */
+  const revealElements = document.querySelectorAll(
+    ".hero, .card, .cta-box, .signup-form, .faq-item"
+  );
 
-  const revealElements = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal", "visible");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-  if (revealElements.length > 0) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, {
-      threshold: 0.15
+    revealElements.forEach((element) => {
+      element.classList.add("reveal");
+      observer.observe(element);
     });
-
-    revealElements.forEach((element) => revealObserver.observe(element));
   }
 });
