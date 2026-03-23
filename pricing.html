@@ -25,7 +25,7 @@
 
   <main>
     <section class="section pricing-hero">
-      <div class="container center">
+      <div class="container">
         <p class="eyebrow">Pricing</p>
         <h1>Wybierz plan dla siebie</h1>
         <p class="section-intro">
@@ -35,40 +35,49 @@
     </section>
 
     <section class="section">
-      <div class="container pricing-grid">
-        <article class="price-card">
-          <h2>Free</h2>
-          <p class="price">0 zł</p>
-          <ul>
-            <li>Podstawowy dostęp do platformy</li>
-            <li>Wstępna analiza celu nauki</li>
-            <li>1 przykładowa roadmapa</li>
-          </ul>
-          <a href="index.html#signup" class="btn btn-secondary">Wybierz plan</a>
-        </article>
+      <div class="container">
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <h2 class="plan-name">Free</h2>
+            <p class="plan-price">0 zł <span>/ mies.</span></p>
+            <p class="plan-desc">Dobry start dla osób, które chcą sprawdzić działanie platformy.</p>
+            <ul class="plan-features">
+              <li>Podstawowy dostęp do platformy</li>
+              <li>Wstępna analiza celu nauki</li>
+              <li>1 przykładowa roadmapa</li>
+            </ul>
+            <a href="index.html#signup" class="btn btn-secondary">Wybierz plan</a>
+          </article>
 
-        <article class="price-card featured">
-          <p class="badge">Najpopularniejszy</p>
-          <h2>Pro</h2>
-          <p class="price">49 zł</p>
-          <ul>
-            <li>Pełna personalizowana roadmapa</li>
-            <li>Priorytety nauki dopasowane do rynku</li>
-            <li>Lepsze dopasowanie do celu zawodowego</li>
-          </ul>
-          <a href="index.html#signup" class="btn btn-primary">Wybierz plan</a>
-        </article>
+          <article class="pricing-card featured">
+            <p class="plan-badge">Najpopularniejszy</p>
+            <h2 class="plan-name">Pro</h2>
+            <p class="plan-price">49 zł <span>/ mies.</span></p>
+            <p class="plan-desc">Najlepszy wybór dla osób, które chcą rozwijać się szybciej i mądrzej.</p>
+            <ul class="plan-features">
+              <li>Pełna personalizowana roadmapa</li>
+              <li>Priorytety nauki dopasowane do rynku</li>
+              <li>Lepsze dopasowanie do celu zawodowego</li>
+            </ul>
+            <a href="index.html#signup" class="btn btn-primary">Wybierz plan</a>
+          </article>
 
-        <article class="price-card">
-          <h2>Business</h2>
-          <p class="price">99 zł</p>
-          <ul>
-            <li>Wsparcie dla zespołów i liderów</li>
-            <li>Mapowanie luk kompetencyjnych</li>
-            <li>Lepsze planowanie rozwoju technicznego</li>
-          </ul>
-          <a href="index.html#signup" class="btn btn-secondary">Wybierz plan</a>
-        </article>
+          <article class="pricing-card">
+            <h2 class="plan-name">Business</h2>
+            <p class="plan-price">99 zł <span>/ mies.</span></p>
+            <p class="plan-desc">Dla zespołów i liderów, którzy chcą planować rozwój kompetencji na danych.</p>
+            <ul class="plan-features">
+              <li>Wsparcie dla zespołów i liderów</li>
+              <li>Mapowanie luk kompetencyjnych</li>
+              <li>Lepsze planowanie rozwoju technicznego</li>
+            </ul>
+            <a href="index.html#signup" class="btn btn-secondary">Wybierz plan</a>
+          </article>
+        </div>
+
+        <p class="pricing-note">
+          Wszystkie plany możesz rozpocząć od zapisania się przez formularz na stronie głównej.
+        </p>
       </div>
     </section>
   </main>
@@ -79,5 +88,7 @@
       <a href="index.html">Powrót na stronę główną</a>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
