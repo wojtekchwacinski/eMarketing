@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   window.dataLayer = window.dataLayer || [];
 
+
   function pushEvent(eventName, params = {}) {
     window.dataLayer.push({
       event: eventName,
